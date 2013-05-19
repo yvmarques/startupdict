@@ -35,6 +35,11 @@ class Tag
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Word", mappedBy="words")
+     */
+    private $words;
+
 
     /**
      * Get id
@@ -90,5 +95,45 @@ class Tag
     public function getSlug()
     {
         return $this->slug;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->words = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add words
+     *
+     * @param \Infuse\DictionaryBundle\Entity\Word $words
+     * @return Tag
+     */
+    public function addWord(\Infuse\DictionaryBundle\Entity\Word $words)
+    {
+        $this->words[] = $words;
+    
+        return $this;
+    }
+
+    /**
+     * Remove words
+     *
+     * @param \Infuse\DictionaryBundle\Entity\Word $words
+     */
+    public function removeWord(\Infuse\DictionaryBundle\Entity\Word $words)
+    {
+        $this->words->removeElement($words);
+    }
+
+    /**
+     * Get words
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWords()
+    {
+        return $this->words;
     }
 }
