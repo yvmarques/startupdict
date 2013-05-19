@@ -1,0 +1,5 @@
+infuse_dictionary:
+    resource: "@InfuseDictionaryBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
