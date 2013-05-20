@@ -2,6 +2,7 @@
 
 namespace Infuse\DictionaryBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,13 +31,13 @@ class Tag
 
     /**
      * @var string
-     *
+     * @Gedmo\Slug(fields={"tag"}, updatable=false)
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Word", mappedBy="words")
+     * @ORM\ManyToMany(targetEntity="Word", mappedBy="tags")
      */
     private $words;
 
@@ -103,7 +104,7 @@ class Tag
     {
         $this->words = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add words
      *
@@ -113,7 +114,7 @@ class Tag
     public function addWord(\Infuse\DictionaryBundle\Entity\Word $words)
     {
         $this->words[] = $words;
-    
+
         return $this;
     }
 

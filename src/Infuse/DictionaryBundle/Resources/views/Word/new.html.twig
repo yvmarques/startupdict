@@ -1,0 +1,33 @@
+{% extends 'InfuseDictionaryBundle::layout.html.twig' %}
+{% block body -%}
+    <h1>Add a definition</h1>
+    <form action="{{ path('word_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+        <div class="control-group">
+            {{ form_label(form.word, 'Word', {label_attr: {class: 'control-label'}}) }}
+            <div class="controls">
+                {{ form_widget(form.word, {attr: {class: 'input-block-level'}}) }}
+                {{ form_errors(form.word) }}
+            </div>
+        </div>
+        <div class="control-group">
+            {{ form_label(form.definition, 'Definition', {label_attr: {class: 'control-label'}}) }}
+            <div class="controls">
+                {{ form_widget(form.definition, {attr: {class: 'input-block-level'}}) }}
+                {{ form_errors(form.definition) }}
+            </div>
+        </div>
+        <div class="control-group">
+            {{ form_label(form.example, 'Example', {label_attr: {class: 'control-label'}}) }}
+            <div class="controls">
+                {{ form_widget(form.example, {attr: {class: 'input-block-level'}}) }}
+                {{ form_errors(form.example) }}
+            </div>
+        </div>
+        {{ form_rest(form) }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{{ url('word') }}" class="btn">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

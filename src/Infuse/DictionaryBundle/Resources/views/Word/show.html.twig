@@ -1,0 +1,42 @@
+{% extends 'InfuseDictionaryBundle::layout.html.twig' %}
+
+{% block body -%}
+    <h1>Word</h1>
+
+    <table class="record_properties table table-strip">
+        <tbody>
+            <tr>
+                <th>Word</th>
+                <td>{{ entity.word }}</td>
+            </tr>
+            <tr>
+                <th>Definition</th>
+                <td>{{ entity.definition }}</td>
+            </tr>
+            <tr>
+                <th>Example</th>
+                <td>{{ entity.example }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions unstyled">
+    <li>
+        <a href="{{ path('word') }}" class="btn">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('word_edit', { 'id': entity.id }) }}" class="btn btn-primary">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('word_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

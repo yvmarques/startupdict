@@ -2,13 +2,17 @@
 
 namespace Infuse\DictionaryBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Word
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Infuse\DictionaryBundle\Entity\WordRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Word
 {
@@ -24,6 +28,7 @@ class Word
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="word", type="string", length=255)
      */
     private $word;
@@ -31,6 +36,7 @@ class Word
     /**
      * @var string
      *
+     * @Gedmo\Slug(fields={"word"}, updatable=false)
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
@@ -38,6 +44,7 @@ class Word
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="definition", type="text")
      */
     private $definition;
@@ -45,6 +52,7 @@ class Word
     /**
      * @var  string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="example", type="text")
      */
     private $example;
@@ -58,14 +66,14 @@ class Word
     private $created;
 
     /**
-     * @var  integer
+     * @var  boolean
      *
-     * @ORM\Column(name="status", type="integer", length=1)
+     * @ORM\Column(name="status", type="boolean")
      */
     private $status;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="tags")
+     * @ORM\ManyToMany(targetEntity="Tag", cascade="persist", inversedBy="words")
      */
     private $tags;
 
@@ -186,6 +194,13 @@ class Word
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedValue() {
+        $this->created = new \DateTime();
+    }
+
+    /**
      * Get created
      *
      * @return string 
@@ -198,10 +213,9 @@ class Word
     /**
      * Set status
      *
-     * @param \interger $status
      * @return Word
      */
-    public function setStatus(\interger $status)
+    public function setStatus($status)
     {
         $this->status = $status;
     
@@ -209,9 +223,15 @@ class Word
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function setStatusValue() {
+        $this->status = 0;
+    }
+
+    /**
      * Get status
      *
-     * @return \interger 
      */
     public function getStatus()
     {
@@ -224,7 +244,7 @@ class Word
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add tags
      *
@@ -234,7 +254,7 @@ class Word
     public function addTag(\Infuse\DictionaryBundle\Entity\Tag $tags)
     {
         $this->tags[] = $tags;
-    
+
         return $this;
     }
 
