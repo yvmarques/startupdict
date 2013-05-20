@@ -20,19 +20,20 @@ class WordController extends Controller
     /**
      * Lists all Word entities.
      *
-     * @Route("/", defaults={"letter" = false}, name="word")
-     * @Route("/{letter}", name="word_letter")
+     * @Route("/", name="word")
      * @Method("GET")
      * @Template()
      */
-    public function indexAction($letter)
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        if (!$letter) {
-            $entities = $em->getRepository('InfuseDictionaryBundle:Word')->findAll();
+        $letter = null;
+        if (!$request->query->get('letter')) {
+            $entities = $em->getRepository('InfuseDictionaryBundle:Word')->findBy(array('status' => 1));
         }else{
-            $entities = $em->getRepository('InfuseDictionaryBundle:Word')->findAllStartWith($letter);
+            $letter = $request->query->get('letter');
+            $entities = $em->getRepository('InfuseDictionaryBundle:Word')->findAllStartWith($request->query->get('letter'));
         }
 
         return array(

@@ -16,8 +16,8 @@
         <div class="navbar-inner">
           <a class="brand" href="{{ url('word') }}">Startup Dict.</a>
           <ul class="nav">
-            {% for i in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0-9'] %}
-            <li><a href="{{ path('word_letter', {'letter': i}) }}">{{ i }}</a></li>
+            {% for i in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] %}
+            <li{% if letter is defined and letter == i %} class="active"{% endif %}><a href="{{ path('word', {'letter': i}) }}">{{ i|upper }}</a></li>
             {% endfor %}
           </ul>
         </div>
