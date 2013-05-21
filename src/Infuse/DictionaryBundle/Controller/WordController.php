@@ -118,7 +118,7 @@ class WordController extends Controller
      * @Route("/{id}/edit", name="word_edit")
      * @Method("GET")
      * @Template()
-     */
+     *
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -145,7 +145,7 @@ class WordController extends Controller
      * @Route("/{id}", name="word_update")
      * @Method("PUT")
      * @Template("InfuseDictionaryBundle:Word:edit.html.twig")
-     */
+     *
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -179,7 +179,7 @@ class WordController extends Controller
      *
      * @Route("/{id}", name="word_delete")
      * @Method("DELETE")
-     */
+     *
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
@@ -206,7 +206,7 @@ class WordController extends Controller
      * @param mixed $id The entity id
      *
      * @return Symfony\Component\Form\Form The form
-     */
+     *
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
@@ -214,4 +214,5 @@ class WordController extends Controller
             ->getForm()
         ;
     }
+    */
 }
