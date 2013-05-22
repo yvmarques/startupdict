@@ -104,11 +104,8 @@ class WordController extends Controller
             throw $this->createNotFoundException('Unable to find Word entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($entity->getId());
-
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $entity,
         );
     }
 
