@@ -12,9 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class WordRepository extends EntityRepository
 {
-    public function findAllStartWith($letter) {
+    public function findAllStartWith($letter, $status = 1) {
         return $this->getEntityManager()
-            ->createQuery('SELECT w FROM InfuseDictionaryBundle:Word w WHERE w.status = 1 AND w.word LIKE :letter ORDER BY w.word ASC')
+            ->createQuery('SELECT w FROM InfuseDictionaryBundle:Word w WHERE w.status = :status AND w.word LIKE :letter ORDER BY w.word ASC')
+            ->setParameter('status', $status)
             ->setParameter('letter', $letter . '%')
             ->getResult();
     }

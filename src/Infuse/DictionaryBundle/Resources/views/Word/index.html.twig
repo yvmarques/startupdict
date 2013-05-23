@@ -5,7 +5,7 @@
 <h1>Word list{% if letter %} - {{ letter|upper }}{% endif %}</h1>
 <ul>
     {% for entity in entities %}
-    <li><a href="{{ path('word_show', {slug: entity.slug}) }}">{{ entity.word }}</a></li>
+    <li><a href="{{ path('word_show', {slug: entity.slug}) }}"{% if entity.status == 0 %} class="muted"{% endif %}>{{ entity.word }}</a></li>
     {% endfor %}
 </ul>
 {% else %}

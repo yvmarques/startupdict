@@ -27,13 +27,15 @@ class WordController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $securityContext = $this->get('security.context');
 
         $letter = null;
+        $status = !$securityContext->isGranted('ROLE_ADMIN');
         if (!$request->query->get('letter')) {
-            $entities = $em->getRepository('InfuseDictionaryBundle:Word')->findBy(array('status' => 1));
+            $entities = $em->createQuery('SELECT w FROM InfuseDictionaryBundle:Word w WHERE w.status >= :s')->setParameter(':s', $status)->getResult();
         }else{
             $letter = $request->query->get('letter');
-            $entities = $em->getRepository('InfuseDictionaryBundle:Word')->findAllStartWith($request->query->get('letter'));
+            $entities = $em->getRepository('InfuseDictionaryBundle:Word')->findAllStartWith($request->query->get('letter'), $status);
         }
 
         return array(
@@ -52,7 +54,7 @@ class WordController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Word();
-        $form = $this->createForm(new WordType(), $entity);
+        $form = $this->createForm(new WordType($this->get('security.context')), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -79,7 +81,7 @@ class WordController extends Controller
     public function newAction()
     {
         $entity = new Word();
-        $form   = $this->createForm(new WordType(), $entity);
+        $form   = $this->createForm(new WordType($this->get('security.context')), $entity);
 
         return array(
             'entity' => $entity,
@@ -112,12 +114,13 @@ class WordController extends Controller
     /**
      * Displays a form to edit an existing Word entity.
      *
-     * @Route("/{id}/edit", name="word_edit")
+     * @Route("/admin/{id}/edit", name="word_edit")
      * @Method("GET")
      * @Template()
-     *
+     */
     public function editAction($id)
     {
+        $securityContext = $this->get('security.context');
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('InfuseDictionaryBundle:Word')->find($id);
@@ -126,12 +129,12 @@ class WordController extends Controller
             throw $this->createNotFoundException('Unable to find Word entity.');
         }
 
-        $editForm = $this->createForm(new WordType(), $entity);
+        $editForm = $this->createForm(new WordType($securityContext), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -139,10 +142,10 @@ class WordController extends Controller
     /**
      * Edits an existing Word entity.
      *
-     * @Route("/{id}", name="word_update")
+     * @Route("/admin/{id}", name="word_update")
      * @Method("PUT")
      * @Template("InfuseDictionaryBundle:Word:edit.html.twig")
-     *
+     */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -154,7 +157,7 @@ class WordController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new WordType(), $entity);
+        $editForm = $this->createForm(new WordType($this->get('security.context')), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -174,9 +177,9 @@ class WordController extends Controller
     /**
      * Deletes a Word entity.
      *
-     * @Route("/{id}", name="word_delete")
+     * @Route("/admin/{id}", name="word_delete")
      * @Method("DELETE")
-     *
+     */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
@@ -203,7 +206,7 @@ class WordController extends Controller
      * @param mixed $id The entity id
      *
      * @return Symfony\Component\Form\Form The form
-     *
+     */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
@@ -211,5 +214,4 @@ class WordController extends Controller
             ->getForm()
         ;
     }
-    */
 }

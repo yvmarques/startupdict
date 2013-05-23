@@ -4,4 +4,9 @@
     <h1>{{ entity.word }}</h1>
     <p class="lead">{{ entity.definition }}</p>
     <em>{{ entity.example }}</em>
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="well well-small" style="margin-top: 30px">
+    <a class="btn" href="{{ path('word_edit', { 'id': entity.id }) }}">Edit</a>
+    </div>
+    {% endif %}
 {% endblock %}

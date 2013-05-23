@@ -3,3 +3,5 @@ infuse_dictionary:
     type:     annotation
     prefix:   /
 
+logout:
+    path: /logout
