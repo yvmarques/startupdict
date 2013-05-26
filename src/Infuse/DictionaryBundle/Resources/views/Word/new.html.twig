@@ -1,6 +1,7 @@
 {% extends 'InfuseDictionaryBundle::layout.html.twig' %}
+{% block title %}Propose a definition - Startup Dict.{% endblock %}
 {% block body -%}
-    <h1>Add a definition</h1>
+    <h1>Propose a definition</h1>
     <form action="{{ path('word_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
         <div class="control-group">
