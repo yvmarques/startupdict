@@ -5,10 +5,12 @@ parameters:
     database_name: symfony_startupdict_dev
     database_user: root
     database_password: root
-    mailer_transport: smtp
+    mailer_transport: mail
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
     locale: en
     secret: df5f82f4e4aefb38f5eeaa86db3cb1d5e740b515
     database_path: null
+    startupdict_from_email: 'info@startupdict.co'
+    startupdict_to_email: 'yvmarques@gmail.com'

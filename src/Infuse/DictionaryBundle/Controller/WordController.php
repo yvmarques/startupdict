@@ -63,6 +63,22 @@ class WordController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            if (strlen($this->container->parameters['startupdict_from_email']) && 
+                strlen($this->container->parameters['startupdict_to_email'])) {
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Startup Dict. - New word to validate')
+                    ->setFrom($this->container->parameters['startupdict_from_email'])
+                    ->setTo($this->container->parameters['startupdict_to_email'])
+                    ->setBody(
+                        $this->renderView(
+                            'InfuseDictionaryBundle:Emails:new.txt.twig',
+                            array('entity' => $entity)
+                        )
+                    )
+                ;
+                $this->get('mailer')->send($message);
+            }
+
             $this->get('session')->getFlashBag()->add('success', 'Your word has been saved. We will review it soon as posisble. Thanks.');
 
             return $this->redirect($this->generateUrl('word_show', array('slug' => $entity->getSlug())));
