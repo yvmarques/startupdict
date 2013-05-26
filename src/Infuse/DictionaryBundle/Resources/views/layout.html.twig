@@ -5,9 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="xWz0HWROkk6A1UjOT9w-aDHONH5XciYtTwwyuIsOwCg">
+    {% block socialmetatags -%}
+    <meta name="description" content="Startup Dict. aim to propose a unique place where people can find definitions about startup related terms.">
+    <meta name="og:title" content="Startup Dict.">
+    <meta name="og:type" content="website">
+    <meta name="og:url" content="{{ url('word') }}">
+    <meta name="og:description" content="Startup Dict. The Startup Dictionary. Place where you can find definitions about the latest terms used in the startup environment.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="{{ url('word') }}">
+    <meta name="twitter:description" content="Startup Dict. The Startup Dictionary. Place where you can find definitions about the latest terms used in the startup environment.">
+    {% endblock %}
+    <link rel="author" href="https://plus.google.com/u/0/115489468730785986296">
     {% stylesheets 
       '@InfuseDictionaryBundle/Resources/public/css/bootstrap.min.css'
-      '@InfuseDictionaryBundle/Resources/public/css/main.css' filter='cssrewrite' %}
+      '@InfuseDictionaryBundle/Resources/public/css/main.css' filter='cssrewrite' -%}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen">
     {% endstylesheets %}
     <script>
@@ -42,7 +53,7 @@
         {% endfor %}
       {% endif %}
       {% block body %}{% endblock %}
-      <div class="footer row">
+      <div class="footer row-fluid">
         <div class="span4">
           <h4>Informations</h4>
           <ul class="unstyled">
@@ -59,14 +70,27 @@
             {% endif %}
           </ul>
         </div>
-        <div class="span4"></div>
+        <div class="span4">
+          <h4>Social</h4>
+          <ul class="unstyled">
+            <li><a href="https://twitter.com/share" class="socialite twitter-share" data-text="Startup Dict. The Startup Dictionary." data-url="{{ url('word') }}" data-count="horizontal">Share on Twitter</a></li>
+            <li><a href="https://plusone.google.com/_/+1/confirm?url={{ url('word')|url_encode }}" class="socialite googleplus-one" data-size="medium">Share on Google+</a></li>
+            <li><a href="https://facebook.com/sharer.php?u={{ url('word')|url_encode }}" class="socialite facebook-like" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false">Share on Facebook</a></li>
+            <li><a href="https://linkedin.com/shareArticle?mini=true&url={{ url('word')|url_encode }}" class="socialite linkedin-share" data-counts="right">Share on Linkedin</a></li>
+          </ul>
+        </div>
       </div>
     </div>
     <script src="//code.jquery.com/jquery.js"></script>
-    {% javascripts '@InfuseDictionaryBundle/Resources/public/js/bootstrap.min.js' %}
+    {% javascripts 
+    '@InfuseDictionaryBundle/Resources/public/js/bootstrap.min.js'
+    '@InfuseDictionaryBundle/Resources/public/js/socialite.min.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% block javascripts %}{% endblock %}
+    <script type="text/javascript">
+      Socialite.load();
+    </script>
     <!-- UserVoice JavaScript SDK (only needed once on a page) -->
     <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/SifCHgY7CtWN1tyLcimhQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
 
