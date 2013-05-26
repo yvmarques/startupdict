@@ -62,6 +62,8 @@ class WordController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add('success', 'Your word has been saved. We will review it soon as posisble. Thanks.');
+
             return $this->redirect($this->generateUrl('word_show', array('slug' => $entity->getSlug())));
         }
 

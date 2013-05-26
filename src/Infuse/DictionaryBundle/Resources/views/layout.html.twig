@@ -33,6 +33,14 @@
           </ul>
         </div>
       </div>
+      {% if app.session.started %}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+          <button typr="button" class="close" data-dismiss="alert">&times;</button>
+          {{ flashMessage }}
+        </div>
+        {% endfor %}
+      {% endif %}
       {% block body %}{% endblock %}
       <div class="footer row">
         <div class="span4">
