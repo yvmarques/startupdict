@@ -12,5 +12,5 @@ parameters:
     locale: en
     secret: df5f82f4e4aefb38f5eeaa86db3cb1d5e740b515
     database_path: null
-    startupdict_from_email: 'info@startupdict.co'
-    startupdict_to_email: 'yvmarques@gmail.com'
+    startupdict_from_email: ''
+    startupdict_to_email: ''
