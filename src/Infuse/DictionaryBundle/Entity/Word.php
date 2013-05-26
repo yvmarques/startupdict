@@ -57,6 +57,11 @@ class Word
      */
     private $example;
 
+    /**
+     * @var  string
+     * @ORM\Column(name="username", type="string", length=32)
+     */
+    private $username;
 
     /**
      * @var datetime
@@ -276,5 +281,28 @@ class Word
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return Word
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 }
