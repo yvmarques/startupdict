@@ -23,6 +23,7 @@ class WordType extends AbstractType
             ->add('word')
             ->add('definition')
             ->add('example')
+            ->add('username')
         ;
 
         $securityContext = $this->securityContext;
