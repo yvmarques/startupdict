@@ -11,6 +11,7 @@
     <meta name="twitter:description" content="{{ entity.definition|length > 155 ? entity.definition|slice(0, 155) ~ '...' : entity.definition }}">
 {% endblock %}
 {% block body -%}
+    {% if entity.status > 0 %}
     <div class="shares pull-right">
         <ul class="unstyled">
             <li><a href="https://twitter.com/share" class="socialite twitter-share" data-text="{{ entity.definition|length > 50 ? entity.definition|slice(0, 50) ~ '...' : entity.definition  }}" data-url="{{ url('word_show', {slug: entity.slug}) }}" data-count="horizontal">Share on Twitter</a></li>
@@ -19,9 +20,12 @@
             <li><a href="https://linkedin.com/shareArticle?mini=true&url={{ url('word_show', {slug: entity.slug})|url_encode }}" class="socialite linkedin-share" data-counts="right">Share on Linkedin</a></li>
         </ul>
     </div>
-    <h1>{{ entity.word }}</h1>
-    <p class="lead">{{ entity.definition }}</p>
-    <em>{{ entity.example }}</em>
+    {% endif %}
+    <div class="definition-block{% if entity.status == 0 %} muted{% endif %}">
+        <h1>{{ entity.word }}</h1>
+        <p class="lead">{{ entity.definition }}</p>
+        <em>{{ entity.example }}</em>
+    </div>
     {% if is_granted('ROLE_ADMIN') %}
     <div class="well well-small" style="margin-top: 30px">
     <a class="btn" href="{{ path('word_edit', { 'id': entity.id }) }}">Edit</a>
