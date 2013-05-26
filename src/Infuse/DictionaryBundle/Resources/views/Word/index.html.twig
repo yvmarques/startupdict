@@ -2,7 +2,11 @@
 {% block title %}Startup Dict. - Let's make startup jargon/lingo understandable for everyone{% endblock %}
 {% block body -%}
 {% if entities|length > 0 %}
-<h1>Word list{% if letter %} - {{ letter|upper }}{% endif %}</h1>
+{% if search is defined %}
+<h1>Your search <em>{{ search }}</em></h1>
+{% else %}
+<h1>Word list{% if letter is defined and letter|length > 0 %} - {{ letter|upper }}{% endif %}</h1>
+{% endif %}
 <ul>
     {% for entity in entities %}
     <li><a href="{{ path('word_show', {slug: entity.slug}) }}"{% if entity.status == 0 %} class="muted"{% endif %}>{{ entity.word }}</a></li>

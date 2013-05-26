@@ -19,4 +19,13 @@ class WordRepository extends EntityRepository
             ->setParameter('letter', $letter . '%')
             ->getResult();
     }
+
+    public function searchAllWithSlugText($text, $status = 1)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT w FROM InfuseDictionaryBundle:Word w WHERE w.status = :status AND w.slug LIKE :search ORDER BY w.word ASC')
+            ->setParameter('status', $status)
+            ->setParameter('search', $text . '%')
+            ->getResult();
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Infuse\DictionaryBundle\Controller;
 
+use Gedmo\Sluggable\Util\Urlizer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -105,7 +106,7 @@ class WordController extends Controller
         $entity = $em->getRepository('InfuseDictionaryBundle:Word')->findOneBySlug($slug);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Word entity.');
+            return $this->redirect($this->generateUrl('word_search', array('text' => $slug)));
         }
 
         return array(
@@ -200,6 +201,29 @@ class WordController extends Controller
         }
 
         return $this->redirect($this->generateUrl('word'));
+    }
+
+    /**
+     * Search a word for a given text
+     *
+     * @Route("/search/{text}", name="word_search")
+     * @Method("GET")
+     * @Template("InfuseDictionaryBundle:Word:index.html.twig")
+     **/
+    public function searchAction($text)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('InfuseDictionaryBundle:Word')->searchAllWithSlugText(Urlizer::urlize($text));
+
+        if (count($entities) == 1) {
+            $entity = array_shift($entities);
+            return $this->redirect($this->generateUrl('word_show', array('slug' => $entity->getSlug())));
+        }
+
+        return array(
+            'search' => $text,
+            'entities' => $entities
+        );
     }
 
     /**
