@@ -3,7 +3,7 @@ parameters:
     database_host: localhost
     database_port: null
     database_name: symfony_startupdict_dev
-    database_user: root
+    database_user: symfony
     database_password: root
     mailer_transport: mail
     mailer_host: 127.0.0.1
