@@ -1,3 +1,3 @@
 Startup Dict.
 ========================
-Symfony project to runs satrtupdict.co
+Symfony project that runs startupdict.io
